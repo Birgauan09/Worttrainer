@@ -31,10 +31,6 @@ public class Rechtschreibtrainer {
         }
     }
 
-    public static void main(String[] args) {
-        new Rechtschreibtrainer();
-    }
-
     public void openFrame(String key, String value, String text) {
         JFrame frame= new JFrame("Benutzereingabe");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
