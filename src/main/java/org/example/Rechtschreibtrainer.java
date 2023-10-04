@@ -5,8 +5,14 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 import java.util.List;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class Rechtschreibtrainer {
 
@@ -17,28 +23,18 @@ public class Rechtschreibtrainer {
     private static String eingabe= "";
     private String anzeige= "Was ist das fuer ein Bild?: ";
 
-    public Rechtschreibtrainer() {
-        this.woerter= new Woerter().getWoerter();
-        entryList= new ArrayList<>(woerter.entrySet());
-        Collections.shuffle(entryList);
-        System.out.println("Willkommen zu dem Rechtschreibtrainer!");
-        System.out.println("Das Spiel beginnt jetzt!");
-
-        for (Map.Entry<String, String> frage : entryList) {
-            String value= frage.getValue();
-            String key= frage.getKey();
-            openFrame(key, value, "Bitte erraten Sie das Bild!: ");
-        }
+    public static void main(String[] args) {
+        new JSONUsage();
     }
 
-    public void openFrame(String key, String value, String text) {
+    public void openFrame(String name, String url, String text) {
         JFrame frame= new JFrame("Benutzereingabe");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 200);
         JPanel panel= new JPanel();
         panel.setLayout(new BorderLayout());
 
-        JTextArea textArea= new JTextArea(text+value);
+        JTextArea textArea= new JTextArea(text+url);
         textArea.setWrapStyleWord(true);
         textArea.setLineWrap(true);
         textArea.setOpaque(false);
@@ -59,16 +55,14 @@ public class Rechtschreibtrainer {
                 eingabe= inputField.getText();
                 frame.dispose();
 
-                System.out.println(value);
-
                 if(eingabe.equals("")) {
-                    textArea.setText("Antwort falsch! Nochmal versuchen: "+value);
+                    textArea.setText("Antwort falsch! Nochmal versuchen: "+url);
                 }
-                if(eingabe.toLowerCase().equals(key.toLowerCase())) {
+                if(eingabe.toLowerCase().equals(name.toLowerCase())) {
                     richtig++;
                 } else {
                     falsch++;
-                    openFrame(key, value, "Antwort falsch! Nochmal versuchen: ");
+                    openFrame(name, url, "Antwort falsch! Nochmal versuchen: ");
                 }
             }
         });
