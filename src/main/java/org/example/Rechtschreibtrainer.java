@@ -24,10 +24,10 @@ public class Rechtschreibtrainer {
     private String anzeige= "Was ist das fuer ein Bild?: ";
 
     public static void main(String[] args) {
-        new JSONUsage();
+        new JSONUsage();        //die auszutauschende Klasse
     }
 
-    public void openFrame(String name, String url, String text) {
+    public int[] openFrame(String name, String url, String text) {
         JFrame frame= new JFrame("Benutzereingabe");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 200);
@@ -53,7 +53,6 @@ public class Rechtschreibtrainer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 eingabe= inputField.getText();
-                frame.dispose();
 
                 if(eingabe.equals("")) {
                     textArea.setText("Antwort falsch! Nochmal versuchen: "+url);
@@ -64,10 +63,13 @@ public class Rechtschreibtrainer {
                     falsch++;
                     openFrame(name, url, "Antwort falsch! Nochmal versuchen: ");
                 }
+                frame.dispose();
             }
         });
         panel.add(okButton, BorderLayout.EAST);
         frame.add(panel);
         frame.setVisible(true);
+
+        return new int[]{richtig, falsch};
     }
 }
